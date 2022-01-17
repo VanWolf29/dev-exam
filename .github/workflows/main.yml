@@ -24,11 +24,11 @@ jobs:
           echo ${{ github.workspace }}
           echo $(ls -las)
 
-      - name: Create terraform backend
-        run: |
-          terraform init
-          terraform apply -auto-approve
-        working-directory: backend/
+      #- name: Create terraform backend
+      #  run: |
+      #    terraform init
+      #    terraform apply -auto-approve
+      #  working-directory: backend/
 
       - name: Create all infrastructure
         run: |
