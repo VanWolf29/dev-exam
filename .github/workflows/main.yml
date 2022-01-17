@@ -1,0 +1,38 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_infrastructure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Create terraform backend
+        run: |
+          terraform init
+          terraform apply -auto-approve
+        working-directory: ./backend/
+
+      - name: Create all infrastructure
+        run: |
+          terraform init
+          terraform apply -auto-approve
+        working-directory: ${{ github.workspace }}
+
+      - name: Build and deploy react application
+        env:
+          S3_BUCKET: dev-exam-raul-webapp-bucket
+        working-directory: ./webapp/
+        run: |
+          yarn
+          yarn build
+          aws s3 sync --acl public-read --follow-symlinks --delete build/ s3://${S3_BUCKET}
