@@ -25,7 +25,7 @@ jobs:
         run: |
           terraform init
           terraform apply -auto-approve
-        working-directory: backend/
+        working-directory: ./backend/
 
       - name: Create all infrastructure
         run: |
@@ -36,7 +36,7 @@ jobs:
       - name: Build and deploy react application
         env:
           S3_BUCKET: dev-exam-raul-webapp-bucket
-        working-directory: webapp/
+        working-directory: ./webapp/
         run: |
           yarn
           yarn build
