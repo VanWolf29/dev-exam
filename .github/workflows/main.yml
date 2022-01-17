@@ -19,11 +19,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      #- name: Create terraform backend
-      #  run: |
-      #    terraform init
-      #    terraform apply -auto-approve
-      #  working-directory: backend/
+      - name: Create terraform backend
+        run: |
+          terraform init
+          terraform apply -auto-approve
+        working-directory: backend/
 
       - name: Create all infrastructure
         run: |
