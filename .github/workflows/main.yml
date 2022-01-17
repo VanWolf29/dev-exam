@@ -16,6 +16,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Workspace
+        run: |
+          echo ${{ github.workspace }}
+          echo $(ls -las)
+
       - name: Create terraform backend
         run: |
           terraform init
